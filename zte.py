@@ -95,8 +95,8 @@ def connect(p: int) -> ZTE:
             client.close()
 
 
-def show(port=2):
-    with connect(port) as c:
+def show(p=2):
+    with connect(p) as c:
         c.write("show this")
         cursor = c.read_until("!")
         for x in cursor.split("\n"):
@@ -111,27 +111,27 @@ def show(port=2):
                 print(x)
 
 
-def learn(port=2):
-    with connect(port) as c:
+def learn(p=2):
+    with connect(p) as c:
         c.clear()
         c.write("auto-learn en")
         c.wait()
     print("Enable auto-learn successful.")
 
 
-def kill(port=2, onu=1):
-    with connect(port) as c:
+def kill(p=2, t=1):
+    with connect(p) as c:
         c.write("auto-learn dis")
         c.wait()
-        c.write("no onu " + onu)
+        c.write("no onu " + t)
         c.wait()
-    print(f"Negate onu {onu} successfully.")
+    print(f"Negate onu {t} successfully.")
 
 
-def restore(port=2, count=8):
-    with connect(port) as c:
+def restore(p=2, n=8):
+    with connect(p) as c:
         c.verbose = True
-        for i in range(int(count)):
+        for i in range(int(n)):
             c.restore_factory(i)
         c.verbose = False
 

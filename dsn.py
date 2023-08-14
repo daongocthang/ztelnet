@@ -85,8 +85,8 @@ def connect(p: int) -> DASAN:
             client.close()
 
 
-def show(port=1):
-    with connect(port) as c:
+def show(p=1):
+    with connect(p) as c:
         c.write('show onu info')
         cursor = c.read_until('#')
         for x in cursor.split("\n"):
@@ -94,8 +94,8 @@ def show(port=1):
                 print(x)
 
 
-def learn(port=1):
-    with connect(port) as c:
+def learn(p=1):
+    with connect(p) as c:
         c.write('discover-serial-number stop')
         c.wait()
         c.write('no onu 1-30')
@@ -107,8 +107,8 @@ def learn(port=1):
     print("Enable auto-learn successful.")
 
 
-def restore(port=1, count=8):
-    with connect(port) as c:
+def restore(p=1, count=8):
+    with connect(p) as c:
         c.verbose = True
         for i in range(int(count)):
             c.restore_factory(i)
