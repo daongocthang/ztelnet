@@ -60,17 +60,24 @@ class ZTE:
         self.wait()
 
     def restore_factory(self, idx):
+        has_error = False
+
         self.set_iface_if_not()
         self.write("exit")
         self.wait()
         self.write("pon-onu-mng gpon-onu_1/1/{}:{}".format(self.port, idx + 1))
-        self.wait()
-        self.write("restore factory")
-        self.wait()
-        self.write("exit")
-        self.wait()
+
+        cursor = self.read_until("#")
+        if "config" in cursor:
+            has_error = True
+        else:
+            self.write("restore factory")
+            self.wait()
+            self.write("exit")
+            self.wait()
+
         if self.verbose:
-            print("onu {} restore factory successful.".format(idx + 1))
+            print("onu {} restore factory {}.".format(idx + 1, "failed" if has_error else "successful"))
 
     def close(self):
         self.telnet.close()

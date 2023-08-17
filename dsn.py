@@ -107,10 +107,10 @@ def learn(p=1):
     print("Enable auto-learn successful.")
 
 
-def restore(p=1, count=8):
+def restore(p=1, n=8):
     with connect(p) as c:
         c.verbose = True
-        for i in range(int(count)):
+        for i in range(int(n)):
             c.restore_factory(i)
         c.verbose = False
 
