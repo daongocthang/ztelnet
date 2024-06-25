@@ -1727,3 +1727,5 @@ F4:83:CD	TP-Link Tech Co
 98:DA:C4	TP-Link Tech Co
 58:9B:4A	DWnet Tech
 24:0B:2A	Viettel Group
+EA:EA:4D	Huawei Tech Co
+22:87:EC	Huawei Tech Co

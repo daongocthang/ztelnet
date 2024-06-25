@@ -1,9 +1,13 @@
 import configparser
 import os
+import re
 import sys
+import time
 
 from contextlib import contextmanager
 from telnetlib import Telnet
+
+import logger
 
 
 class ZTE:
@@ -85,6 +89,9 @@ class ZTE:
             print("Connection closed.")
 
 
+__directory = "ZTELNET"
+
+
 @contextmanager
 def connect(p: int) -> ZTE:
     client = None
@@ -119,6 +126,9 @@ def show(p=2):
 
 
 def learn(p=2):
+    if os.path.isfile(os.path.join(logger.parent_dir, __directory, "log.txt")):
+        os.remove(os.path.join(logger.parent_dir, __directory, "log.txt"))
+
     with connect(p) as c:
         c.clear()
         c.write("auto-learn en")
@@ -141,6 +151,36 @@ def restore(p=2, n=8):
         for i in range(int(n)):
             c.restore_factory(i)
         c.verbose = False
+
+
+def watch(p=2):
+    first_run = False
+    with connect(p) as c:
+        try:
+            c.set_iface_if_not()
+            while True:
+                os.system('cls')
+                c.write("show pon power onu-rx gpon-olt_1/1/{}".format(c.port))
+                cursor = c.read_until("#")
+                for x in cursor.split("\n"):
+                    if "N/A" in x:
+                        logger.write(x.strip(), __directory)
+                    else:
+                        match = re.search("-([0-9\\.]+)\\(dbm\\)", x)
+                        if match:
+                            if not first_run:
+                                logger.write(x.strip() + " start", __directory)
+
+                            if type(match) is int and int(match) > 18:
+                                logger.write(x.strip(), __directory)
+
+                    if "#" not in x:
+                        print(x)
+                print("\nwatching ...")
+                first_run = True
+                time.sleep(10)
+        except KeyboardInterrupt:
+            pass
 
 
 if __name__ == "__main__":

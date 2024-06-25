@@ -8,8 +8,9 @@ import colorama
 import pyfiglet
 from termcolor import cprint, colored
 
-
 # import wifiscan
+
+
 
 
 class ZXA10:
@@ -33,15 +34,15 @@ class ZXA10:
         self._read_until('#')
 
     def connect(self):
-        host = self.config['DEFAULT']['host']
-        port = self.config['DEFAULT']['port']
+        host = self.config['ZTE']['host']
+        port = self.config['ZTE']['port']
         self.telnet.open(host, port, 10)
         if self.verbose:
             print('Connected to the host.')
 
     def log_in(self):
-        usr = self.config['DEFAULT']['usr']
-        pwd = self.config['DEFAULT']['pwd']
+        usr = self.config['ZTE']['usr']
+        pwd = self.config['ZTE']['pwd']
 
         self._read_until('Username:')
         self._write(usr)

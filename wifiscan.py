@@ -37,7 +37,7 @@ def scan(iface):
             bss.cipher,
             bss.akm
         ))
-    return sorted(networks, key=lambda st: st[3], reverse=True)
+    return sorted(networks, key=lambda st: st[1], reverse=True)
 
 
 class StoreDictKeyPair(argparse.Action):
