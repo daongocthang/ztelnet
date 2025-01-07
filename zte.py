@@ -6,6 +6,7 @@ import time
 
 from contextlib import contextmanager
 from telnetlib import Telnet
+from typing import Union
 
 import logger
 
@@ -81,7 +82,11 @@ class ZTE:
             self.wait()
 
         if self.verbose:
-            print("onu {} restore factory {}.".format(idx + 1, "failed" if has_error else "successful"))
+            print(
+                "onu {} restore factory {}.".format(
+                    idx + 1, "failed" if has_error else "successful"
+                )
+            )
 
     def close(self):
         self.telnet.close()
@@ -93,10 +98,10 @@ __directory = "ZTELNET"
 
 
 @contextmanager
-def connect(p: int) -> ZTE:
+def connect(p: int) -> ZTE | None:  # type: ignore
     client = None
     try:
-        client = ZTE(port=p)
+        client = ZTE(port=p, verbose=True)
         client.connect()
         client.log_in()
         client.set_iface_if_not()
@@ -159,7 +164,7 @@ def watch(p=2):
         try:
             c.set_iface_if_not()
             while True:
-                os.system('cls')
+                os.system("cls")
                 c.write("show pon power onu-rx gpon-olt_1/1/{}".format(c.port))
                 cursor = c.read_until("#")
                 for x in cursor.split("\n"):

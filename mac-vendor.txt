@@ -1066,6 +1066,7 @@ CC:B0:A8	Huawei Device Co
 F0:C8:50	Huawei Tech Co
 E0:97:96	Huawei Tech Co
 98:2F:F8	Huawei Device Co
+68:9E:29	ZTE Corp
 34:E0:CF	ZTE Corp
 F4:1F:88	ZTE Corp
 D8:A8:C8	ZTE Corp
@@ -1729,3 +1730,5 @@ F4:83:CD	TP-Link Tech Co
 24:0B:2A	Viettel Group
 EA:EA:4D	Huawei Tech Co
 22:87:EC	Huawei Tech Co
+EC:74:D7	Grandstream Networks Inc
+C0:51:5C	ZTE Corp
